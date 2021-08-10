@@ -1,0 +1,63 @@
+{
+  "name": "yamusic-rp",
+  "productName": "yamusic-rp",
+  "version": "1.0.0",
+  "description": "Yandex Music Rich Presence",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "Sergey",
+    "email": "koreec849@gmail.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "YandexMusicRP"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "discord-rich-presence": "0.0.8",
+    "discord-rpc": "^4.0.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.0.0",
+    "http": "0.0.1-security",
+    "ws": "^7.5.3"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.58",
+    "@electron-forge/maker-deb": "^6.0.0-beta.58",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.58",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.58",
+    "@electron-forge/maker-zip": "^6.0.0-beta.58",
+    "electron": "13.1.7"
+  }
+}

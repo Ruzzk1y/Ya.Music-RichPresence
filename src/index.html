@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id='body'>
+    <div class="div-box"><span class="span-inputbox">
+        <p>API Key: </p><input placeholder="Client ID" type="text" class="input-clientId">
+      </span>
+      <span class="span-inputbox">
+        <p>Port: </p><input placeholder="port" type="text" class="input-port">
+      </span>
+      <span class="span-inputbox">
+        <p>Start on startup</p>
+        <input type="checkbox" id="checkbox-startup" />
+      </span>
+      <p id="infobox"></p>
+    </div>
+    <div id="div-rp">
+      <div id="div-rp-img"><img src="./img/128.png" id="div-imagelarge" height="100px">
+        <!-- <img src="./img/128.png" id="div-imagesmall"> -->
+      </div>
+      <div id="div-rp-info">
+        <b>Yandex Music</b>
+        <p id="rpexample-title"></p>
+        <p id="rpexample-description"></p>
+        <p id="rpexample-timestamp"></p>
+      </div>
+    </div>
+    <button id="button-exitapp">Exit the app</button>
+    <script src="render.js"></script>
+  </div>
+</body>
+
+</html>
