@@ -1,19 +1,15 @@
 const fs = require('fs')
 const { app } = require('electron')
-const coversPath = require("path").join(app.getPath("userData") + "\\covers.json")
+const path = require("path");
+const customCoversPath = path.join(app.getPath("userData") + "\\userCovers.json")
+const coversPath = path.join(app.getPath("userData") + "\\covers.json")
 const Store = require("electron-store")
 const store = new Store()
-let clientId = store.get('clientId') || ''
 const DiscordRPC = require("discord-rpc");
-const __coversPlaceholder = `[
-    ["*THIS ARRAY IS FOR ARTIST PROFILE PICTURES*"], ["*THIS ARRAY IS FOR ALBUM COVERS*"], ["*THIS ARRAY IS FOR PLAYLIST PICTURES*"],
-    [
-        "HOW TO USE COVERS:",
-        "Covers are used to show album covers/artist profile pictures in rich presence large image.",
-        "To start using covers you need to enter string in this format: [Name of album/artist%your_image_key_in_application%]",
-        "Example: Nevermind%nevermind_nirvana%"
-    ]
-]`;
+require("https").get("https://raw.githubusercontent.com/Ruzzk1y/Ya.Music-RichPresence/master/__covers/covers.json", function (response) {
+    response.pipe(fs.createWriteStream(coversPath));
+});
+let clientId = store.get('clientId') || ''
 let rpc;
 let timeout;
 let presence = {
@@ -70,14 +66,9 @@ function getCovers(artist = '', album_title = '', playlist_title = '') {
     try {
         uplCovers = JSON.parse(fs.readFileSync(coversPath, "utf-8"));
     } catch (err) {
-        //check if file exists and if not, create it.
-        fs.access(coversPath, fs.F_OK, (err) => {
-            if (err) {
-                fs.appendFile(coversPath, __coversPlaceholder, err => { if (err) throw err; });
-            }
-        })
         console.error(err);
     }
+    fs.access(customCoversPath, (err) => { if (err) return; else uplCovers = fs.readFileSync(customCoversPath, "utf-8") });
     uplCovers[0].forEach(el => {
         if (el.startsWith(artist)) {
             if (regex.test(el)) presence.largeImageKey = el.match(regex)[0];

@@ -17,14 +17,5 @@
         "Часть чего-то большего%chast_chego-to_bolshego%",
         "No-One's Coming for Us%no_one_is_coming_for_us%"
     ],
-    [
-        "*THIS ARRAY IS FOR PLAYLIST PICTURES*",
-        "ffavffofurites%"
-    ],
-    [
-        "HOW TO USE COVERS:",
-        "Covers are used to show album covers/artist profile pictures in rich presence large image.",
-        "To start using covers you need to enter string in this format: [Name of album/artist%your_image_key_in_application%]",
-        "Example: Nevermind%nevermind_nirvana%"
-    ]
+    []
 ]
