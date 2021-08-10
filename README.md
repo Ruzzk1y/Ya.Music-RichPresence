@@ -1,4 +1,5 @@
-###This repo contains desktop app and browser extension for Yandex.Music Discord Rich presence.
+### This repo contains desktop app and browser extension for Yandex.Music Discord Rich presence.
+
 **To set it up, you need to:**
 
 1. Download and install Electron desktop app.
