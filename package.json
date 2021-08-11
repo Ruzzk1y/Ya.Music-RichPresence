@@ -3,8 +3,11 @@
   "productName": "yamusic-rp",
   "version": "1.0.0",
   "description": "Yandex Music Rich Presence",
-  "main": "src/index.js",
+  "main": "built/index.js",
   "scripts": {
+    "once": "tsc && npm start",
+    "watch": "run-p autocompile start",
+    "autocompile": "tsc -w",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -47,9 +50,11 @@
   "dependencies": {
     "discord-rich-presence": "0.0.8",
     "discord-rpc": "^4.0.1",
+    "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.0",
     "http": "0.0.1-security",
+    "typescript": "^4.3.5",
     "ws": "^7.5.3"
   },
   "devDependencies": {
@@ -58,6 +63,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.58",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.58",
     "@electron-forge/maker-zip": "^6.0.0-beta.58",
+    "@types/node": "^16.4.13",
     "electron": "13.1.7"
   }
 }
