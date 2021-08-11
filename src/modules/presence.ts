@@ -23,7 +23,8 @@ let Presence: DiscordRichPresence = {
   instance: false,
 };
 
-export function startPresence(clientId: string | number) {
+export function startPresence(newClientId?: string) {
+  if (newClientId) clientId = newClientId;
   try {
     if (rpc) rpc.destroy();
     rpc = new DiscordRPC.Client({ transport: "ipc" });
