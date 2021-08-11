@@ -9,10 +9,10 @@
 <body>
   <div id='body'>
     <div class="div-box"><span class="span-inputbox">
-        <p>API Key: </p><input placeholder="Client ID" type="text" class="input-clientId"><br>
+        <p>API Key: </p><input placeholder="Client ID" type="text" id="input-clientId"><br>
       </span>
       <span class="span-inputbox">
-        <p>Port: </p><input placeholder="port" type="text" class="input-port">
+        <p>Port: </p><input placeholder="port" type="text" id="input-port">
       </span>
       <span class="span-inputbox">
         <p>Start on startup</p>
@@ -33,7 +33,8 @@
       </div>
     </div>
     <button id="button-exitapp">Exit the app</button>
-    <script src="render.js"></script>
+    <script> let exports = {}; //exports doesn't work without this line. </script>
+    <script src="render.js" defer></script>
   </div>
 </body>
 

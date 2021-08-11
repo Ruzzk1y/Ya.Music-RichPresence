@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "outDir": "built/"
+  },
+
+  "files": ["src/index.ts", "src/render.ts"],
+  "include": ["src/modules/*"]
+}

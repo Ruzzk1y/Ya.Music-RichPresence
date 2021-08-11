@@ -1,3 +1,10 @@
+#Typescript built
+built/*
+built/*/*
+!built/img
+!built/index.html
+!built/index.css
+
 # Logs
 logs
 *.log
