@@ -1,6 +1,6 @@
 import { ipcRenderer } from "electron";
 import Store = require("electron-store");
-// import * as t from "./types/types";
+import { DiscordRichPresence } from "./types/types";
 const store = new Store();
 const infobox = document.getElementById("infobox") as HTMLParagraphElement;
 const port_input = document.getElementById("input-port") as HTMLInputElement;
@@ -52,7 +52,7 @@ setInterval(() => {
   ipcRenderer.send("get-current-rich-presence", true);
 }, 1e3);
 
-ipcRenderer.on("get-current-rich-presence", (e, rp) => {
+ipcRenderer.on("get-current-rich-presence", (e, rp: DiscordRichPresence) => {
   if (!rp || !rp.hasOwnProperty("details") || !rp.hasOwnProperty("state"))
     return (rpe.title.textContent = "Presence isn't running.");
   rpe.title.textContent = rp.details;
@@ -60,7 +60,7 @@ ipcRenderer.on("get-current-rich-presence", (e, rp) => {
   rpe.timestamp.textContent = getTime(rp.startTimestamp) + " elapsed";
 });
 
-function getTime(timestamp) {
+function getTime(timestamp: number) {
   let diff = Number(new Date()) - Number(new Date(timestamp * 1000));
   var minutes = Math.floor(diff / 60000);
   var seconds = Number(((diff % 60000) / 1000).toFixed(0));
