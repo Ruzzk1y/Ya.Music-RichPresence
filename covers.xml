@@ -16,5 +16,5 @@
     <artists>
         <cover name="The Pixies" assetId="the_pixies"/>
     </artists>
-    <playlists><cover name="Favorites" assetId="favourites" /></playlists>
+    <playlists><cover name="Favorites" assetId="favorites" __reminder="Favorites cover always needs to be first."/></playlists>
 </covers>

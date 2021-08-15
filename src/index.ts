@@ -1,5 +1,9 @@
 import { app, BrowserWindow, Tray, ipcMain } from "electron";
-import { startPresence, getPresence } from "./modules/presence";
+import {
+  startPresence,
+  getPresence,
+  shouldIgnoreFavorites,
+} from "./modules/presence";
 import updateServer from "./modules/websocket";
 import path = require("path");
 import Store = require("electron-store");
@@ -81,4 +85,13 @@ ipcMain.on("close", () => {
 
 ipcMain.on("get-current-rich-presence", e => {
   e.reply("get-current-rich-presence", getPresence());
+});
+
+ipcMain.on("get-showfavorites-state", e => {
+  e.reply("get-showfavorites-state", store.get("showfavorites-state"));
+});
+
+ipcMain.on("showfavorites-state-changed", (e, state: boolean) => {
+  store.set("showfavorites-state", state);
+  shouldIgnoreFavorites(!state);
 });

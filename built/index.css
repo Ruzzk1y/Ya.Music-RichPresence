@@ -106,6 +106,6 @@ button:focus {
   background-color: #333436;
 }
 
-#checkbox-startup {
+input[type="checkbox"] {
   margin-left: auto;
 }

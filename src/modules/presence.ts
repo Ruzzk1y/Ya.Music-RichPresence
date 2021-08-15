@@ -22,6 +22,7 @@ let Presence: DiscordRichPresence = {
   largeImageText: "Yandex.Music",
   instance: false,
 };
+let ignoreFavorites = store.get("showfavorites-state");
 
 export function startPresence(newClientId?: string) {
   if (newClientId) clientId = newClientId;
@@ -72,8 +73,12 @@ export function getPresence() {
   return Presence;
 }
 
+export const shouldIgnoreFavorites = (ignore = false) =>
+  (ignoreFavorites = ignore);
+
 function getCovers(matches = { artists: "", albums: "", playlists: "" }) {
   let coversXML;
+
   try {
     coversXML = xmltojs.xml2js(fs.readFileSync(coversPath, "utf-8"));
   } catch (err) {
@@ -87,6 +92,9 @@ function getCovers(matches = { artists: "", albums: "", playlists: "" }) {
     albums: coversXML.elements[0].elements[1] as XMLCoversObject,
     playlists: coversXML.elements[0].elements[2] as XMLCoversObject,
   };
+
+  //Delete Favorites
+  if (ignoreFavorites == true) covers.playlists.elements.splice(0, 1);
 
   //This complicated loop tries to find largeImageKey in XML and returns if found.
   for (const key in covers) {

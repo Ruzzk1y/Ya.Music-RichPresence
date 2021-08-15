@@ -10,6 +10,9 @@ const clientId_input = document.getElementById(
 const startup_switch = document.getElementById(
   "checkbox-startup"
 ) as HTMLInputElement;
+const showfavorites_switch = document.getElementById(
+  "checkbox-showfavorites"
+) as HTMLInputElement;
 
 const rpe = {
   title: document.getElementById("rpexample-title"),
@@ -38,10 +41,19 @@ clientId_input.addEventListener("change", e => {
 ipcRenderer.on("get-startup-state", (e, state) => {
   startup_switch.checked = state;
 });
-ipcRenderer.send("get-startup-state", true);
+ipcRenderer.send("get-startup-state");
 startup_switch.addEventListener("change", e => {
   let target = e.target as HTMLInputElement;
   ipcRenderer.send("startup-state-changed", target.checked);
+});
+
+ipcRenderer.on("get-showfavorites-state", (e, state) => {
+  showfavorites_switch.checked = state;
+});
+ipcRenderer.send("get-showfavorites-state");
+showfavorites_switch.addEventListener("change", e => {
+  let target = e.target as HTMLInputElement;
+  ipcRenderer.send("showfavorites-state-changed", target.checked);
 });
 
 document.getElementById("button-exitapp").addEventListener("click", () => {
