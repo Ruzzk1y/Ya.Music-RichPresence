@@ -11,8 +11,8 @@ import DiscordRPC = require("discord-rpc");
 import xmltojs = require("xml-js");
 import { Http2ServerResponse } from "http2";
 const store = new Store();
-const customCoversPath = path.join(app.getPath("userData"), "userCovers.json"); //Will be implemented later..
-const coversPath = path.join(app.getPath("userData") + "\\covers.xml");
+const customCoversPath = path.join(app.getPath("userData"), "userCovers.xml"); //Will be implemented later..
+const coversPath = path.join(app.getPath("userData"), "covers.xml");
 
 let clientId = String(store.get("clientId") || "");
 let rpc: DiscordRPC.Client;
@@ -78,10 +78,7 @@ function getCovers(matches = { artists: "", albums: "", playlists: "" }) {
     coversXML = xmltojs.xml2js(fs.readFileSync(coversPath, "utf-8"));
   } catch (err) {
     console.error(err);
-    fs.access(customCoversPath, err => {
-      if (!err) return console.error("Probably an XML Structure problem!");
-      else downloadCovers(); //Try to download file again.
-    });
+    downloadCovers(); //Try to download file again.
   }
 
   //Wrap the XML structure
@@ -202,12 +199,9 @@ function boldify(string = "") {
 
 function downloadCovers() {
   require("https").get(
-    "https://raw.githubusercontent.com/Ruzzk1y/Ya.Music-RichPresence/master/__covers/covers.xml",
+    "https://raw.githubusercontent.com/Ruzzk1y/Ya.Music-RichPresence/master/covers.xml",
     function (response: Http2ServerResponse) {
-      let stream = fs.createWriteStream(coversPath);
-      response.pipe(stream);
-      stream.destroy();
-      response.destroy();
+      response.pipe(fs.createWriteStream(coversPath));
     }
   );
 }

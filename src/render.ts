@@ -60,9 +60,9 @@ ipcRenderer.on("get-current-rich-presence", (e, rp: DiscordRichPresence) => {
   rpe.timestamp.textContent = getTime(rp.startTimestamp) + " elapsed";
 });
 
-function getTime(timestamp: number) {
+function getTime(timestamp: number): string {
   let diff = Number(new Date()) - Number(new Date(timestamp * 1000));
   var minutes = Math.floor(diff / 60000);
   var seconds = Number(((diff % 60000) / 1000).toFixed(0));
-  return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+  return String(minutes) + ":" + String((seconds < 10 ? "0" : "") + seconds);
 }
