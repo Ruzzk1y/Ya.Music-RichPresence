@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<covers>
+    <albums>
+        <cover name="Этажи" assetId="etazhi"/>
+        <cover name="Demon Days"                        assetId="demon_days" />
+        <cover name="Obstacles"                         assetId="obstacles" />
+        <cover name="Nevermind"                         assetId="nevermind" />
+        <cover name="Nirvana"                           assetId="nirvananirvana" />
+        <cover name="Голд"                              assetId="gold_buerak" />
+        <cover name="С крыш наших домов"                assetId="s_krysh_nashih_domov" />
+        <cover name="The Singles Collection 2001-2011"  assetId="the_singles_collection_2001" />
+        <cover name="Смирись и расслабься"              assetId="smiris_i_rasslabsya" />
+        <cover name="Часть чего-то большего"            assetId="chast_chego" />
+        <cover name="No-One's Coming for Us"            assetId="no_one_is_coming_for_us" />
+    </albums>
+    <artists>
+        <cover name="The Pixies" assetId="the_pixies"/>
+    </artists>
+    <playlists><cover name="Favorites" assetId="favourites" /></playlists>
+</covers>

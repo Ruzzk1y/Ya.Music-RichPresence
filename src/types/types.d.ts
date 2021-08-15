@@ -28,3 +28,18 @@ export interface DiscordRichPresence {
 
   instance?: boolean;
 }
+
+interface XMLCoverObject {
+  type: "element";
+  name: "cover";
+  attributes: {
+    name: string;
+    assetId: string;
+  };
+}
+/**/
+export interface XMLCoversObject {
+  type: "element";
+  name: string;
+  elements: XMLCoverObject[];
+}

@@ -55,7 +55,8 @@
     "electron-store": "^8.0.0",
     "http": "0.0.1-security",
     "typescript": "^4.3.5",
-    "ws": "^7.5.3"
+    "ws": "^7.5.3",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.58",

@@ -1,18 +1,18 @@
-import { PlayerStatus, DiscordRichPresence } from "../types/types";
+import {
+  PlayerStatus,
+  DiscordRichPresence,
+  XMLCoversObject,
+} from "../types/types";
 import { app } from "electron";
 import fs = require("fs");
 import path = require("path");
 import Store = require("electron-store");
 import DiscordRPC = require("discord-rpc");
+import xmltojs = require("xml-js");
+import { Http2ServerResponse } from "http2";
 const store = new Store();
 const customCoversPath = path.join(app.getPath("userData"), "userCovers.json"); //Will be implemented later..
-const coversPath = path.join(app.getPath("userData") + "\\covers.json");
-require("https").get(
-  "https://raw.githubusercontent.com/Ruzzk1y/Ya.Music-RichPresence/master/__covers/covers.json",
-  function (response) {
-    response.pipe(fs.createWriteStream(coversPath));
-  }
-);
+const coversPath = path.join(app.getPath("userData") + "\\covers.xml");
 
 let clientId = String(store.get("clientId") || "");
 let rpc: DiscordRPC.Client;
@@ -53,7 +53,11 @@ export function setPresence(status: PlayerStatus) {
     Presence.state = `by ${boldify(getArtists(status.artists))}`;
 
     //getCovers mutates original 'Presence' object.
-    getCovers(status.artists[0], status.album_title, status.playlist_title);
+    getCovers({
+      artists: status.artists[0],
+      albums: status.album_title,
+      playlists: status.playlist_title,
+    });
 
     if (!rpc) {
       startPresence(clientId);
@@ -68,50 +72,40 @@ export function getPresence() {
   return Presence;
 }
 
-function getCovers(artist = "", album_title = "", playlist_title = "") {
-  const regex = /(?<=\%).+?(?=\%)/g;
-  let found = false;
-  let uplCovers: string[][];
-
+function getCovers(matches = { artists: "", albums: "", playlists: "" }) {
+  let coversXML;
   try {
-    uplCovers = JSON.parse(fs.readFileSync(coversPath, "utf-8"));
+    coversXML = xmltojs.xml2js(fs.readFileSync(coversPath, "utf-8"));
   } catch (err) {
     console.error(err);
+    fs.access(customCoversPath, err => {
+      if (!err) return console.error("Probably an XML Structure problem!");
+      else downloadCovers(); //Try to download file again.
+    });
   }
 
-  fs.access(customCoversPath, err => {
-    if (err) return;
-    else
-      try {
-        uplCovers = JSON.parse(fs.readFileSync(customCoversPath, "utf-8"));
-      } catch (err) {
-        console.error(err);
+  //Wrap the XML structure
+  let covers = {
+    artists: coversXML.elements[0].elements[0] as XMLCoversObject,
+    albums: coversXML.elements[0].elements[1] as XMLCoversObject,
+    playlists: coversXML.elements[0].elements[2] as XMLCoversObject,
+  };
+
+  //This complicated loop tries to find largeImageKey in XML and returns if found.
+  for (const key in covers) {
+    if (Object.prototype.hasOwnProperty.call(covers, key)) {
+      for (const el of covers[key].elements) {
+        if (matches[covers[key].name] == el.attributes.name) {
+          Presence.largeImageKey = el.attributes.assetId;
+          return (Presence.smallImageKey = "yandexmusiclarge");
+        }
       }
-  });
+    }
+  }
 
-  uplCovers[0].forEach(el => {
-    if (el.startsWith(artist)) {
-      if (regex.test(el)) Presence.largeImageKey = el.match(regex)[0];
-      found = true;
-    }
-  });
-  uplCovers[1].forEach(el => {
-    if (el.startsWith(album_title)) {
-      if (regex.test(el)) Presence.largeImageKey = el.match(regex)[0];
-      found = true;
-    }
-  });
-  uplCovers[2].forEach(el => {
-    if (el.startsWith(playlist_title)) {
-      if (regex.test(el)) Presence.largeImageKey = el.match(regex)[0];
-      found = true;
-    }
-  });
-
-  if (found) {
-    Presence.largeImageKey = "yandexmusiclarge";
-    delete Presence.smallImageKey;
-  } else Presence.smallImageKey = "yandexmusiclarge";
+  //Return to default images if didn't find right cover.
+  Presence.largeImageKey = "yandexmusiclarge";
+  delete Presence.smallImageKey;
 }
 
 function resetTimeout() {
@@ -205,3 +199,17 @@ function boldify(string = "") {
       .replaceAll("0", "𝟬")
   );
 }
+
+function downloadCovers() {
+  require("https").get(
+    "https://raw.githubusercontent.com/Ruzzk1y/Ya.Music-RichPresence/master/__covers/covers.xml",
+    function (response: Http2ServerResponse) {
+      let stream = fs.createWriteStream(coversPath);
+      response.pipe(stream);
+      stream.destroy();
+      response.destroy();
+    }
+  );
+}
+
+downloadCovers();

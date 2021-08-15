@@ -11,6 +11,7 @@ let tray: Tray;
 //For tests:
 require("electron-reload")(__dirname, {
   electron: path.join(app.getPath("exe")),
+  forceHardReset: true,
 });
 
 if (require("electron-squirrel-startup")) {
