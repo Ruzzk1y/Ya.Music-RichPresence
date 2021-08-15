@@ -1,7 +1,8 @@
 #Typescript built
 built/*
 built/*/*
-!built/img
+!built/img/
+!built/img/*
 !built/index.html
 !built/index.css
 

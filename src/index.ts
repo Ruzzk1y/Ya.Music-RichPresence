@@ -16,6 +16,12 @@ require("electron-reload")(__dirname, {
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
+
+if (process.platform === "win32") {
+  //Fixes flickering on showup: https://github.com/electron/electron/issues/22691
+  app.commandLine.appendSwitch("wm-window-animations-disabled");
+}
+
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     show: false,
