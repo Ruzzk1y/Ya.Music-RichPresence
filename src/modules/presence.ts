@@ -2,7 +2,7 @@ import {
   PlayerStatus,
   DiscordRichPresence,
   XMLCoversObject,
-} from "../types/types";
+} from "../types/declarations";
 import { app } from "electron";
 import fs = require("fs");
 import path = require("path");
@@ -22,7 +22,7 @@ let Presence: DiscordRichPresence = {
   largeImageText: "Yandex.Music",
   instance: false,
 };
-let ignoreFavorites = store.get("showfavorites-state");
+let ignoreFavorites = store.get("showfavorites-state") as boolean;
 
 export function startPresence(newClientId?: string) {
   if (newClientId) clientId = newClientId;
@@ -69,13 +69,6 @@ export function setPresence(status: PlayerStatus) {
   );
 }
 
-export function getPresence() {
-  return Presence;
-}
-
-export const shouldIgnoreFavorites = (ignore = false) =>
-  (ignoreFavorites = ignore);
-
 function getCovers(matches = { artists: "", albums: "", playlists: "" }) {
   let coversXML;
 
@@ -94,13 +87,13 @@ function getCovers(matches = { artists: "", albums: "", playlists: "" }) {
   };
 
   //Delete Favorites
-  if (ignoreFavorites == true) covers.playlists.elements.splice(0, 1);
+  if (ignoreFavorites === true) covers.playlists.elements.splice(0, 1);
 
   //This complicated loop tries to find largeImageKey in XML and returns if found.
   for (const key in covers) {
     if (Object.prototype.hasOwnProperty.call(covers, key)) {
       for (const el of covers[key].elements) {
-        if (matches[covers[key].name] == el.attributes.name) {
+        if (matches[covers[key].name] === el.attributes.name) {
           Presence.largeImageKey = el.attributes.assetId;
           return (Presence.smallImageKey = "yandexmusiclarge");
         }
@@ -130,7 +123,7 @@ function getArtists(artists = []) {
   return list.slice(0, -2);
 }
 
-function boldify(string = "") {
+function boldify(string = ""): string {
   //This function transforms usual letters to bold ones an cuts strings.
   if (string.length > 30) string = string.slice(0, 27) + "...";
 
@@ -201,7 +194,7 @@ function boldify(string = "") {
       .replaceAll("7", "𝟳")
       .replaceAll("8", "𝟴")
       .replaceAll("9", "𝟵")
-      .replaceAll("0", "𝟬")
+      .replaceAll("0", "𝟬") as string
   );
 }
 
@@ -215,3 +208,11 @@ function downloadCovers() {
 }
 
 downloadCovers();
+
+export const getPresence = () => {
+  return Presence;
+};
+
+export const shouldIgnoreFavorites = (ignore: boolean) => {
+  ignoreFavorites = ignore;
+};

@@ -7,7 +7,7 @@ import {
 import updateServer from "./modules/websocket";
 import path = require("path");
 import Store = require("electron-store");
-import { ElectronWindowPosition } from "./types/types";
+import { ElectronWindowPosition } from "./types/declarations";
 const store = new Store();
 const icon128 = path.join(__dirname, "img/128.ico");
 let tray: Tray;

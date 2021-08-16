@@ -1,6 +1,6 @@
 import { ipcRenderer } from "electron";
 import Store = require("electron-store");
-import { DiscordRichPresence } from "./types/types";
+import { DiscordRichPresence } from "./types/declarations";
 const store = new Store();
 const infobox = document.getElementById("infobox") as HTMLParagraphElement;
 const port_input = document.getElementById("input-port") as HTMLInputElement;

@@ -1,5 +1,6 @@
 import websocket = require("ws");
 import { setPresence } from "./presence.js";
+import { isPlayerStatus } from "../types/guards";
 let wss: websocket.Server;
 const setWebsocket = (port = 51972) => {
   if (wss) wss = wss.close();
@@ -8,9 +9,10 @@ const setWebsocket = (port = 51972) => {
     console.log("Connection established.");
     ws.on("message", (message: string) => {
       try {
-        let status = JSON.parse(message);
         console.log(message);
-        if (!status.__DRP) return console.log("INVALID REQUEST RECEIVED");
+        let status = JSON.parse(message);
+        if (!isPlayerStatus(status))
+          return console.log("Invalid request received.");
         setPresence(status);
       } catch (e) {
         console.error(e);
